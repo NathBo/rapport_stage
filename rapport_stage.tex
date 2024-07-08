@@ -1,10 +1,10 @@
-\documentclass{article}
+\documentclass[letterpaper]{article}
+\usepackage[letterpaper, left=0.625in, right=0.625in, bottom=1in, top=0.75in]{geometry}
 \usepackage{cmap}
+\usepackage{multicol}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[french]{babel}
 \usepackage{amsmath}
-\usepackage[left=3cm, right=3cm, top=2cm]{geometry}
 
 \title{Rapport de stage}
 \author{Nathan Boyer}
@@ -13,11 +13,25 @@
 
 \maketitle
 
-\section{Introduction}
 
-\subsection{Présentation du problème}
+\begin{multicols}{2}
+    
 
-\subsection{But du stage}
+
+\begin{abstract}
+    
+    It's possible to distribute the Internet to users via drones.
+    However, this raises the question of how to place the drones around the users, and how to distribute the bandwidth between the different users.
+    A reinforcement AI has already been designed to address this problem.
+    However, in this article, we will see how learning and optimization can be combined to further improve performance.
+
+\end{abstract}
+
+
+\section{Probleme presentation}
+
+We have m users, classified into 3 categories, each class having its own bandwidth demand for a drone.
+We then want to place n drones, and for each drone, decide how much of its bandwidth it gives to each class of drone, so that as many drones as possible are satisfied, i.e.\:the bandwidth available to them is greater than or equal to their demand.
 
 \section{Résolution du problème par optimisation sous contraintes}
 
@@ -38,6 +52,8 @@
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
 
 \section{Conclusion}
+
+\end{multicols}
 
 \end{document}
 
