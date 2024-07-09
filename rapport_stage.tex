@@ -47,17 +47,42 @@ $\operatorname{SINR}_{i, j}^t=\frac{p c \mu\left(y_j, u_i^t\right)\left(\left(\l
 
 To evaluate a configuration we will thus proceed as follows:
 
-We first need to associate each user with its nearest base station.
+You first need to associate each user with its nearest base station.
 
-We then share the bandwidth of a base station dedicated to a given class between all users of this class associated to this base station.
+You then share the bandwidth of a base station dedicated to a given class between all users of this class associated to this base station.
 
-Then, we compute each user SINR and decide for the user is satisfied or not.
+Then, you compute each user SINR and decide for the user is satisfied or not.
 
-The percentage of satisfied user is thus what we want to maximize.
+The percentage of satisfied user is thus what you want to maximize.
 
-\subsection{Equations}
+\subsection{Optimization problem}
 
-\subsection{Optimisations}
+This problem can be resolved by as an optimization problem, I will show you how to resolve it for 2 base stations.
+
+Let's first define u a matrix of dimensions $N*N$, with N being the number of positions possible for a base station.
+$u_{i,j}$ is a binary variable that is equal to one if and only if the first base station is in position i and the second is position j.
+
+$bw$ is a $3*2$ matrix that represents the bandwidth each base station allocates to each user class.
+
+$\delta$ is a vector that represents for every whether it is satisfied or not.
+
+The function to optimize is then: $\max_{u,bw}\sum_{g\in\mathcal{G}}\delta_g$
+
+Under the following constraints:
+
+\begin{enumerate}
+    \item $\sum_{b \in |\mathcal{U}|} \sum_{i, j \in \mathcal{U}} u_{i, j} \times bw_{\text{slice}(g), b} \times \text{bps}_g \frac{100}{G_{\text{conn}}(\text{slice}(g),b)} \nonumber$
+    $\geq th_g \times \delta_g \hspace{1cm} \forall g \in \mathcal{G} \\[1em]$
+    \item $bw_{em,b} + bw_{ur,b} + bw_{mm,b} = 1 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]$
+    \item $bw_{em,b} \geq 0; bw_{ur,b} \geq 0; bw_{mm,b} \geq 0 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]$
+    \item $\sum_{i,j \in \mathcal{U}}u_{i,j} = 1 \\[1em]$
+    \item $\delta_g \in \{0, 1\} \hspace{1cm} \forall g \in \mathcal{G} \\[1em] $
+    \item $u_{i,j} \in \{0, 1\} \hspace{1cm} \forall i,j \in \{0, 1, \ldots , |\mathcal{U}-1|\}$
+\end{enumerate}
+
+The resolution of this optimization problem can be implemented in Python with the help of a module such as pulp.
+
+\subsection{Time Optimizations}
 
 \section{Apprentissage pour résoudre le problème}
 
