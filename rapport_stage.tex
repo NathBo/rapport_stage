@@ -84,6 +84,19 @@ The resolution of this optimization problem can be implemented in Python with th
 
 \subsection{Time Optimizations}
 
+To speed up the resolution of this problem, I implemented a few optimizations:
+
+First, only positions in the convex enveloppe of the users can actually be candidates for optimal placements of the base stations.
+We can thus reduce by a lot the size of the matrix u.
+
+Moreover, it is possible to go further but not without losing precision.
+Indeed, you can divide the users into k clusters and take the union of this convex enveloppe of this clusters.
+The graph of performance and time in function of the number of clusters can be found below.
+
+However, since the computation times are pretty reasonable for 2 base stations, I decided to go with only 1 cluster.
+
+Finally, multithreading can be used to further accelerate the computations.
+
 \section{Apprentissage pour résoudre le problème}
 
 \subsection{Apprentissage par réenforcement}
