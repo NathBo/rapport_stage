@@ -33,7 +33,27 @@
 We have m users, classified into 3 categories, each class having its own bandwidth demand for a drone.
 We then want to place n drones, and for each drone, decide how much of its bandwidth it gives to each class of drone, so that as many drones as possible are satisfied, i.e.\:the bandwidth available to them is greater than or equal to their demand.
 
-\section{Résolution du problème par optimisation sous contraintes}
+\section{Problem solving by constrained optimization}
+
+\subsection{Rigourous problem definition}
+
+This problem can be solved by constrained optimization.
+
+First, we have to define the equation that computes how well a user will reveive a base station's connection depending on where it is.
+
+We have the following Equations for the drones's SINRs, which is a factor that represents how much data is effectively receiveed by the user, in relation to the data sent by the base station to the user:
+
+$\operatorname{SINR}_{i, j}^t=\frac{p c \mu\left(y_j, u_i^t\right)\left(\left(\left\|y_j-u_i^t\right\|\right)^2+\left(h\right)^2\right)^{-\alpha / 2}}{\sum\limits_{k \in \mathcal{U} \backslash i} p c \mu\left(y_j, u_k^t\right)\left(\left(\left\|y_j-u_k^t\right\|\right)^2+\left(h\right)^2\right)^{-\alpha / 2}+\sigma^2}$
+
+To evaluate a configuration we will thus proceed as follows:
+
+We first need to associate each user with its nearest base station.
+
+We then share the bandwidth of a base station dedicated to a given class between all users of this class associated to this base station.
+
+Then, we compute each user SINR and decide for the user is satisfied or not.
+
+The percentage of satisfied user is thus what we want to maximize.
 
 \subsection{Equations}
 
