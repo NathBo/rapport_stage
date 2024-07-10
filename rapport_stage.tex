@@ -97,11 +97,35 @@ However, since the computation times are pretty reasonable for 2 base stations, 
 
 Finally, multithreading can be used to further accelerate the computations.
 
-\section{Apprentissage pour résoudre le problème}
+\section{Machine learning to solve the problem}
 
-\subsection{Apprentissage par réenforcement}
+However, a major issue is that this method of solving the problem by optimization is still pretty long.
+This can be problematic, especially if the users are moving, and it thus becomes necessary to recalculate the optimal position often.
 
-\subsection{Apprentissage par rapport à la solution optimum}
+Thus, a solution using machine learning was considered.
+Indeed, solving an instance of the problem would only require a forward pass of the neural network, which is negligible in time.
+
+\subsection{Reinforcement learning}
+
+This is why a reinforcement learning solution was imagined and implemented by Lorenzo Bellone.
+
+\textit{Here I maybe present his results, and do I say they don't really work?}
+
+\subsection{Supervised learning from the optimal solution}
+
+But, an other idea is to use supervised learning.
+By using an optimal agent, the neural network can learn to replicate the optimal solutions.
+
+The neural network is then divided in 2 neural networks:
+
+\begin{enumerate}
+    \item A neural network that takes as inputs the positions of the users and learns to output the best positions for the 2 base stations.
+    \item A neural network that takes as inputs the positions of the users and the positions of the base stations and learns to output the best slicing of bandwiths between the 3 classes of users.
+\end{enumerate}
+
+As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
+
+\textit{Here, I present my results with a lot of different graphs}
 
 \subsection{Mixer les 2}
 
