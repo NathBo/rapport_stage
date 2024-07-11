@@ -125,11 +125,35 @@ The neural network is then divided in 2 neural networks:
 
 As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
 
-\textit{Here, I present my results with a lot of different graphs}
+\textit{Here, I present my results with a lot of different graphics}
 
-\subsection{Mixer les 2}
+\subsection{Learn only what's necessary}
 
-\subsection{Les graph neural network}
+However, we can here see \textit{(show some graphics here)} that the bandwidth part seems to be the issue here.
+Indeed, first you can see the test error on bandwiths stops to decrease rapidly
+
+To do a complete comparaison of the different methods, I computed the mean rewards and time to execute of the 3 methods quoted until now:
+
+\textit{Faire le tableau des trucs}
+
+\subsection{Generalizing to a variable number of users}
+
+However, until now, I have only resolved instances with a fix number of users.
+
+To fix this, the first solution we imagined was to use graph neural networks.
+\textit{Detail how gnn work}
+
+The graph given to the neural network was constructed using a k-neighbourg algorithm.
+I have made a graphic plotting the final test error in function of the k in the k-neighbourg algorithm.
+
+However, as you can see, whatever the chosen k is, the results are always lacking.
+
+I thus opted for a simpler but less beautiful approach: I just add a one-hot to each user stating if the drone exists or not.
+Thus, the neural network can be used to resolve instances with a variable number of users, as long as the number in question is inferior to a certain maximum.
+
+The precision is very similar to what it used to be with a fix number of users as you can see in the following graphics:
+
+\textit{Put some graphics here}
 
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
 
