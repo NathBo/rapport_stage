@@ -2,6 +2,7 @@
 \usepackage[letterpaper, left=0.625in, right=0.625in, bottom=1in, top=0.75in]{geometry}
 \usepackage{cmap}
 \usepackage{multicol}
+\usepackage{graphicx}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath}
@@ -91,7 +92,20 @@ We can thus reduce by a lot the size of the matrix u.
 
 Moreover, it is possible to go further but not without losing precision.
 Indeed, you can divide the users into k clusters and take the union of this convex enveloppe of this clusters.
+
+You can visualize the transformation done as follows:
+
+\includegraphics[scale=0.15]{images/four_cluster.png}
+
 The graph of performance and time in function of the number of clusters can be found below.
+
+\includegraphics[scale=0.15]{images/Performance_opt_function_clusters.png}
+
+Moreover, I am using \textit{Quote article here} to generate instances, thus as the instances generated have as many
+clusters as they have base stations, I am going to generate instances using clusters too.
+The performances are then as follows:
+
+\includegraphics[scale=0.15]{images/Performance_opt_function_clusters_when_2clusters.png}
 
 However, since the computation times are pretty reasonable for 2 base stations, I decided to go with only 1 cluster.
 
