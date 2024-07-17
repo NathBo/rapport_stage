@@ -121,9 +121,20 @@ Indeed, solving an instance of the problem would only require a forward pass of 
 
 \subsection{Reinforcement learning}
 
-This is why a reinforcement learning solution was imagined and implemented by Lorenzo Bellone.
+This is why a reinforcement learning solution was imagined and implemented by Lorenzo Bellone.\textit{Quote article}
 
-\textit{Here I maybe present his results, and do I say they don't really work?}
+He tried to solve the same problem as the one I presented and, to put it shortly, managed to get an average reward of 72-73\% of users satisfied.
+
+However, there are multiple differences between how he approached this problem and how I did:
+
+\begin{enumerate}
+    \item First, he moves the base stations setp by step and computes the mean reward over 100 movements.
+          However, since the base stations spend most of their times idling (because they have already reached their best possible position),
+          I took the bias of putting the base stations directly at the computed best position, and then computing the reward only once (which also allows to test the different agents over more instances in the same amount of time).
+    \item Secondly, what is plotted in his article is the average reward during the reinforcement process.
+          What it means is that the neural network is only tested on the instances it just learnt from.
+          What I did instead is I have a separate test set, which I use to evaluate the different agents.
+\end{enumerate}
 
 \subsection{Supervised learning from the optimal solution}
 
