@@ -15,7 +15,6 @@
 \maketitle
 
 
-\begin{multicols}{2}
     
 
 
@@ -151,12 +150,24 @@ The neural network is then divided in 2 neural networks:
 As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
 
 To conclude with my results, here is the average error for the neural network that learns to output the positions:
+As well as the average error for the neural network that learns to output the bandwiths:
 
-\includegraphics[scale=0.2]{images/mix_pos.png}
-
-And here is the average error for the neural network that learns to output the bandwiths:
-
-\includegraphics[scale=0.2]{images/bw_error_epochs.png}
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/mix_pos.png}
+        \caption{Position error}
+        \label{fig:image5}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/bw_error_epochs.png}
+        \caption{Bandwidth error}
+        \label{fig:image6}
+    \end{minipage}
+\end{figure}
 
 \;
 
@@ -186,10 +197,10 @@ To do a complete comparaison of the different methods, I computed the mean rewar
 
 \begin{center}
     \begin{tabular}{ c c c }
-     Type of agent & Normalized performance & Execution time \\ 
-     AI positions and bandwiths & cell5 & cell6 \\  
-     AI positions and optimal bandwiths & cell8 & cell9  \\
-     Optimal positions and bandwiths & cell5 & cell6 
+     Type of agent & Average user coverage & Execution time \\ 
+     AI positions and bandwiths & 76.80\% & 0.7875 ms \\  
+     AI positions and optimal bandwiths & 84.72\% & 15.677 ms  \\
+     Optimal positions and bandwiths &  87.08\% & 2.2759 s 
     \end{tabular}
     \end{center}
 
@@ -216,7 +227,6 @@ The precision is very similar to what it used to be with a fix number of users a
 
 \section{Conclusion}
 
-\end{multicols}
 
 \end{document}
 
