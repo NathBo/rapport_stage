@@ -2,6 +2,7 @@
 \usepackage[letterpaper, left=0.625in, right=0.625in, bottom=1in, top=0.75in]{geometry}
 \usepackage{cmap}
 \usepackage{multicol}
+\usepackage{float}
 \usepackage{graphicx}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -94,17 +95,32 @@ Indeed, you can divide the users into k clusters and take the union of this conv
 
 You can visualize the transformation done as follows:
 
-\includegraphics[scale=0.15]{images/four_cluster.png}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/four_cluster.png}
+    \caption{Representation of the convex enveloppe of the 4 clusters}
+\end{figure}
 
 The graph of performance and time in function of the number of clusters can be found below.
-
-\includegraphics[scale=0.15]{images/Performance_opt_function_clusters.png}
 
 Moreover, I am using \textit{Quote article here} to generate instances, thus as the instances generated have as many
 clusters as they have base stations, I am going to generate instances using clusters too.
 The performances are then as follows:
 
-\includegraphics[scale=0.15]{images/Performance_opt_function_clusters_when_2clusters.png}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/Performance_opt_function_clusters.png}
+        \caption{Performance when users are random}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/Performance_opt_function_clusters_when_2clusters.png}
+        \caption{Performance when users are in 2 clusters}
+    \end{minipage}
+\end{figure}
 
 However, since the computation times are pretty reasonable for 2 base stations, I decided to go with only 1 cluster.
 
@@ -152,7 +168,7 @@ As a side note, the type of each users is represented by 3 one-hots, one for eac
 To conclude with my results, here is the average error for the neural network that learns to output the positions:
 As well as the average error for the neural network that learns to output the bandwiths:
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}[b]{0.45\textwidth}
         \centering
@@ -173,16 +189,25 @@ As well as the average error for the neural network that learns to output the ba
 
 With these neural networks, we can test it on instances and evaluate the performances it gives.
 
-(We plot here the normalized average user coverage, i.e. the average user coverage divided by the average user coverage of the optimal solution)
+(We plot here the normalized average user coverage, i.e.\, the average user coverage divided by the average user coverage of the optimal solution)
 
-\includegraphics[scale=0.2]{images/bilan_en _fonction epochs.png}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/bilan_en _fonction epochs.png}
+    \caption{Representation of the convex enveloppe of the 4 clusters}
+\end{figure}
 
 \subsection{Learn only what's necessary}
 
 However, you can see the test error on bandwiths stops to decrease rapidly.
 That's why I decided to plot the performances when the positions are decided optimally, but the bandwiths are decided with the AI.
 
-\includegraphics[scale=0.18]{images/bilan_en _fonction epochs_aibw.png}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/bilan_en _fonction epochs_aibw.png}
+    \caption{Performance with optimal positions and AI bandwiths}
+\end{figure}
 
 As we can see, the bandwidth part seems to be the issue.
 
@@ -191,7 +216,11 @@ which is pretty fast once the positions are fixed.
 
 We then have the following results:
 
-\includegraphics[scale=0.18]{images/mix_results.png}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/mix_results.png}
+    \caption{Performance with AI positions and optimal bandwiths}
+\end{figure}
 
 To do a complete comparaison of the different methods, I computed the mean rewards and time to execute of the 3 methods quoted until now:
 
