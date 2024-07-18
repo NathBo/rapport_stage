@@ -158,14 +158,40 @@ And here is the average error for the neural network that learns to output the b
 
 \includegraphics[scale=0.2]{images/bw_error_epochs.png}
 
+\;
+
+With these neural networks, we can test it on instances and evaluate the performances it gives.
+
+(We plot here the normalized average user coverage, i.e. the average user coverage divided by the average user coverage of the optimal solution)
+
+\includegraphics[scale=0.2]{images/bilan_en _fonction epochs.png}
+
 \subsection{Learn only what's necessary}
 
-However, we can here see \textit{(show some graphics here)} that the bandwidth part seems to be the issue here.
-Indeed, first you can see the test error on bandwiths stops to decrease rapidly
+However, you can see the test error on bandwiths stops to decrease rapidly.
+That's why I decided to plot the performances when the positions are decided optimally, but the bandwiths are decided with the AI.
+
+\includegraphics[scale=0.18]{images/bilan_en _fonction epochs_aibw.png}
+
+As we can see, the bandwidth part seems to be the issue.
+
+Thus, I implemented an agent which decides positions with a neural network, but decides the bandwiths optimally,
+which is pretty fast once the positions are fixed.
+
+We then have the following results:
+
+\includegraphics[scale=0.18]{images/mix_results.png}
 
 To do a complete comparaison of the different methods, I computed the mean rewards and time to execute of the 3 methods quoted until now:
 
-\textit{Faire le tableau des trucs}
+\begin{center}
+    \begin{tabular}{ c c c }
+     Type of agent & Normalized performance & Execution time \\ 
+     AI positions and bandwiths & cell5 & cell6 \\  
+     AI positions and optimal bandwiths & cell8 & cell9  \\
+     Optimal positions and bandwiths & cell5 & cell6 
+    \end{tabular}
+    \end{center}
 
 \subsection{Generalizing to a variable number of users}
 
