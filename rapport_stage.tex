@@ -2,30 +2,24 @@
 \usepackage[letterpaper, left=0.625in, right=0.625in, bottom=1in, top=0.75in]{geometry}
 \usepackage{cmap}
 \usepackage{multicol}
+\usepackage{cite}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath}
 
-\title{Internship report}
+\title{Internship Report}
 \author{Nathan Boyer}
 
 \begin{document}
 
 \maketitle
 
-
-    
-
-
 \begin{abstract}
-    
-    It's possible to distribute the Internet to users via drones.
-    However, this raises the question of how to place the drones around the users, and how to distribute the bandwidth between the different users.
-    A reinforcement AI has already been designed to address this problem.
-    However, in this article, we will see how learning and optimization can be combined to further improve performance.
+    The 5th Generation (5G) New Radio (NR) technology is designed to accommodate a wide range of applications and industries. The NGNM 5G White Paper \cite{5gwhitepaper} groups these vertical use cases into three categories: i) enhanced Mobile Broadband (eMBB), ii) massive Machine Type Communication (mMTC), and iii) Ultra-Reliable Low-latency Communication (URLLC).
 
+    It's possible to distribute the Internet to users via drones. However, this raises the question of how to place the drones around the users and how to distribute the bandwidth between the different users. This problem is often defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI. In my internship, I wanted to prove that viewing the problem as an optimization problem can still be useful. I use it to achieve better results than approaches that use only AI, although at the cost of slightly larger (but still reasonable) computation times.
 \end{abstract}
 
 
@@ -255,6 +249,10 @@ The precision is very similar to what it used to be with a fix number of users a
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
 
 \section{Conclusion}
+
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
 
 
 \end{document}
