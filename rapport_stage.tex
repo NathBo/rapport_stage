@@ -29,7 +29,7 @@
 
     A partitioning of the physical network into several virtual networks looks to be the most suitable approach to provide a customized service to each application and to limit the operation expenses. This design is well known as \textit{network slicing}.
     Each drone must thus slice its bandwith between each of the 3 user classes.
-    This whole problem (placement + bandwidth) is often defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI.
+    This whole problem (placement + bandwidth) can be defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI.
     In my internship, I wanted to prove that viewing the problem as an optimization problem can still be useful, by building an hybrid solution involving on one hand AI and on the other optimization.
     I use it to achieve better results than approaches that use only AI, although at the cost of slightly larger (but still reasonable) computation times.
 \end{abstract}
@@ -54,8 +54,8 @@ Finally, in \textit{Reinforcement Learning Aided UAV Base Station Location Optim
 My internship aims at developping the following points on a 2-UAVs-aided RAN slicing:
 
 \begin{enumerate}
-    \item Optimizing the optimization algorithm to make it able to generate big amount of data in reasonable time
-    \item Developping a AI agent that learns from the optimal optimization algorithm with supervised learning
+    \item Improving the optimization algorithm to make it able to generate big amount of data in reasonable time
+    \item Developping an AI agent that learns from the optimal optimization algorithm with supervised learning
     \item Building an hybrid agent from this AI agent that combines AI and algorithmic to achieve better performance
     \item Realizing an honest comparaison between the different methods both in terms of performance achieved and in terms of computation time
 \end{enumerate}
@@ -98,19 +98,22 @@ The function to optimize is then: $\max_{u,bw}\sum_{g\in\mathcal{G}}\delta_g$
 
 Under the following constraints:
 
-\begin{enumerate}
-    \item $\sum_{b \in |\mathcal{U}|} \sum_{i, j \in \mathcal{U}} u_{i, j} \times bw_{\text{slice}(g), b} \times \text{bps}_g \frac{100}{G_{\text{conn}}(\text{slice}(g),b)} \nonumber$
-    $\geq th_g \times \delta_g \hspace{1cm} \forall g \in \mathcal{G} \\[1em]$
-    \item $bw_{em,b} + bw_{ur,b} + bw_{mm,b} = 1 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]$
-    \item $bw_{em,b} \geq 0; bw_{ur,b} \geq 0; bw_{mm,b} \geq 0 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]$
-    \item $\sum_{i,j \in \mathcal{U}}u_{i,j} = 1 \\[1em]$
-    \item $\delta_g \in \{0, 1\} \hspace{1cm} \forall g \in \mathcal{G} \\[1em] $
-    \item $u_{i,j} \in \{0, 1\} \hspace{1cm} \forall i,j \in \{0, 1, \ldots , |\mathcal{U}-1|\}$
-\end{enumerate}
+\begin{subequations}
+    \allowdisplaybreaks
+    \begin{align}
+        & \sum_{b \in |\mathcal{U}|} \sum_{i, j \in \mathcal{U}} u_{i, j} \times bw_{\text{slice}(g), b} \times \text{bps}_g \frac{100}{G_{\text{conn}}(\text{slice}(g),b)} \nonumber \\
+        & \geq th_g \times \delta_g \hspace{1cm} \forall g \in \mathcal{G} \\[1em]
+        & bw_{em,b} + bw_{ur,b} + bw_{mm,b} = 1 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]
+        & bw_{em,b} \geq 0; bw_{ur,b} \geq 0; bw_{mm,b} \geq 0 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]
+        & \sum_{i,j \in \mathcal{U}}u_{i,j} = 1 \\[1em]
+        & \delta_g \in \{0, 1\} \hspace{1cm} \forall g \in \mathcal{G} \\[1em] 
+        & u_{i,j} \in \{0, 1\} \hspace{1cm} \forall i,j \in \{0, 1, ... , |\mathcal{U}-1|\}
+    \end{align}\label{constr}
+    \end{subequations}
 
 The resolution of this optimization problem can be implemented in Python with the help of a module such as pulp.
 
-\subsection{Time Optimizations}
+\subsection{Improvement of the optimization algorithm}
 
 To speed up the resolution of this problem, I implemented a few optimizations:
 
@@ -163,7 +166,7 @@ Indeed, solving an instance of the problem would only require a forward pass of 
 
 \subsection{Reinforcement learning}
 
-This is why a reinforcement learning solution was imagined and implemented by Lorenzo Bellone.\textit{Quote article}
+A reinforcement learning solution was imagined and implemented by Lorenzo Bellone.\textit{Quote article}
 
 He tried to solve the same problem as the one I presented and, to put it shortly, managed to get an average reward of 72-73\% of users satisfied.
 
