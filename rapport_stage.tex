@@ -35,16 +35,23 @@
 \end{abstract}
 
 
-\section{Probleme presentation}
+\section{Probleme presentation and literature analysis}
 
-We have m users, classified into 3 categories, each class having its own bandwidth demand for a drone.
-We then want to place n drones, and for each drone, decide how much of its bandwidth it gives to each class of drone, so that as many drones as possible are satisfied, i.e.\:the bandwidth available to them is greater than or equal to their demand.
+The concept of network slicing has been investigated for some time. With the purpose of providing multiple core networks over the same network infrastructure, DECOR and eDECOR \cite{decor} have been already used in legacy LTE networks. 
+However, the slicing of Radio Access Network (RAN) was not considered in these works yet.
+Since then, the 5G network slicing concept evolved, by providing a better modularization and flexibility of the network functions.
+RAN slicing is now of great interest for the literature, given the ability to support resource isolation among different slices, providing a way to allocate radio resources to the connected User Equipments (UEs) based on the slices they belong to. 
+Several RAN slicing approaches have been proposed in the past few years. 
+Traditional strategies (\hspace{1sp}\cite{RANslicing1}, \cite{orion})  mainly deal with orthogonal resource allocation in time and/or frequency domain, such that the isolation between different services is guaranteed. Their aim in mainly oriented at allocating virtual Resource Blocks (vRBs) to UEs for intra-slice scheduling and to map the allocated vRBs to Physical Resource Blocks (PRBs) at a second stage.
+
+Machine Learning (ML) techniques (\hspace{1sp}\cite{fairness}, \cite{main_article}), mainly deep reinforcement learning, have also been extensively considered, given their capability to find patterns within the huge amount of data that is exchanged in cellular networks.
+
 
 \section{Problem solving by constrained optimization}
 
 \subsection{In-depth explanation}
 
-This problem can be solved by constrained optimization.
+This problem can be solved by constrained optimization (\hspace{1sp}\cite{main_article}).
 
 First, we have to define the equation that computes how well a user will reveive a base station's connection depending on where it is.
 
