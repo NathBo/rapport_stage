@@ -46,6 +46,20 @@ Traditional strategies (\hspace{1sp}\cite{RANslicing1}, \cite{orion})  mainly de
 
 Machine Learning (ML) techniques (\hspace{1sp}\cite{fairness}, \cite{main_article}), mainly deep reinforcement learning, have also been extensively considered, given their capability to find patterns within the huge amount of data that is exchanged in cellular networks.
 
+In \textit{Deep Reinforcement Learning for Combined Coverage and Resource Allocation in UAV-Aided RAN-Slicing}\cite{main_article}, the authors develop a deep reinforcement learning agent that decides the best direction to go over a few 100 steps, and that is the most common approach.
+Indeed, in \textit{UAV-Assisted Fair Communication for Mobile Networks: A Multi-Agent Deep Reinforcement Learning Approach}\cite{fairness}, the authors do pratically the same thing but add the dimension of fairness between the users.
+Moreover, in \textit{QoS-Aware UAV-BS Deployment Optimization Based on Reinforcement Learning}\cite{deep-qn}, the authors show that using deep-Q-network, it is possible to achieve optimal performance when placing only 1 base station.
+Finally, in \textit{Reinforcement Learning Aided UAV Base Station Location Optimization for Rate Maximization}\cite{rate_max}, the authors use again deep reinforcement learning to resolve the placement of 3 UAVs and find that it achieves around 70\% of the optimal performance, and that it is better that a k-means algorithm when the measure of imperfection is higher.
+
+My internship aims at developping the following points on a 2-UAVs-aided RAN slicing:
+
+\begin{enumerate}
+    \item Optimizing the optimization algorithm to make it able to generate big amount of data in reasonable time
+    \item Developping a AI agent that learns from the optimal optimization algorithm with supervised learning
+    \item Building an hybrid agent from this AI agent that combines AI and algorithmic to achieve better performance
+    \item Realizing an honest comparaison between the different methods both in terms of performance achieved and in terms of computation time
+\end{enumerate}
+
 
 \section{Problem solving by constrained optimization}
 
