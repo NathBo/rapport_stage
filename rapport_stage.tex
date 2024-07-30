@@ -35,6 +35,9 @@
 \end{abstract}
 
 
+\tableofcontents
+
+
 \section{Probleme presentation and literature analysis}
 
 The concept of network slicing has been investigated for some time. With the purpose of providing multiple core networks over the same network infrastructure, DECOR and eDECOR \cite{decor} have been already used in legacy LTE networks. 
@@ -289,6 +292,30 @@ The precision is very similar to what it used to be with a fix number of users a
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
+
+
+\appendix
+
+\section{Appendix detailling how the neural networks are built}
+
+For the position agent, each user is represented as:
+\begin{enumerate}
+    \item Its x and y axis
+    \item A one-hot for each of the possible type
+    \item A one-hot that indicates if the user actually exists (if the user does not exist, the positions are set to random and the one-hots above to 0)
+\end{enumerate}
+
+The number of users is easily adjustable (I set it to 100 in the tests)
+The neural network is then composed of 2 convolutional layers, followed by 2 linear layers.
+The hyper-parameters are the following: learning rate of $5e^{-5}$ and weight decay of $1e^{-5}$.
+
+\;
+
+For the bandwidth agent, each user is represented as before but there is an entry added for the position of each of the UAV.
+The neural network is then composed of a convolutional layer for the drones, a convolutional layer for the users,
+then the 2 results are concatenated and passed to 2 linear layers.
+The hyper-parameters are the following: learning rate pf $2e^{-4}$ and weight decay of $1e^{-6}$
+
 
 
 \end{document}
