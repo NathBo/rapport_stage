@@ -116,6 +116,40 @@ Under the following constraints:
 
 The resolution of this optimization problem can be implemented in Python with the help of a module such as pulp.
 
+\subsection{Instances generation}
+
+This internship is mainly based on this article: \textit{Deep Reinforcement Learning for Combined Coverage and Resource Allocation in UAV-Aided RAN-Slicing}\cite{main_article}.
+As such, instances of the problem are generated in a very similar way as they are in this article, and are as follows:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Parameter & Value \\
+    \hline
+        Number of users $n$ & 50 (later 25 - 100)\\
+        Number of clusters $c$ & 2 (later 0 - 5) \\
+        UAV transmit power $p$ &  1 W\\
+        pathloss exponend $\alpha$ & 2.1 \cite{Channel_Model}\\
+        UAV half-power beamwidth $\eta$ & 30 deg. \cite{Channel_Model}\\
+        Near-field pathloss $c$ & -38.4 dB \cite{Channel_Model}\\
+        Noise power $\sigma^2$ & $8 \cdot 10^{-13}$ W\\
+        Bandwidth $B$ & 20 MHz\\
+        Users density, $|\mathcal{G}|/\text{km}^2$ & 100\\
+        UAVs number, $|\mathcal{U}|$ & 2\\
+        UAVs height $h$ & 50 m\\
+        UAVs density $|\mathcal{U}|/\text{km}^2$ & 8\\
+        eMBB users demand $\text{dem}_\text{eMBB}$ & 5 Mbps \cite{demandsvalues}\\
+        URLLC users demand $\text{dem}_\text{URLLC}$ & 10 Mbps \cite{demandsvalues}\\
+        mMTC users demand $\text{dem}_\text{mMTC}$ & 0.5 Mbps \cite{demandsvalues}\\
+        $p_{\text{eMBB}}$, $p_{\text{URLLC}}$, $p_{\text{mMTC}}$ & 20\%, 10\%, 70\% \\
+    \hline
+    \end{tabular}
+    \caption{Environment Parameters}
+    \label{tab:envparams}
+\end{table}
+
+
 \subsection{Improvement of the optimization algorithm}
 
 To speed up the resolution of this problem, I implemented a few optimizations:
