@@ -203,17 +203,17 @@ Indeed, solving an instance of the problem would only require a forward pass of 
 
 \subsection{Reinforcement learning}
 
-A reinforcement learning solution was imagined and implemented by Lorenzo Bellone.\textit{Quote article}
+A reinforcement learning solution was imagined and implemented, again in article\;\cite{main_article}
 
-He tried to solve the same problem as the one I presented and, to put it shortly, managed to get an average reward of 72-73\% of users satisfied.
+The authors tried to solve the same problem as the one I presented and, to put it shortly, managed to get an average reward of 72-73\% of users satisfied.
 
-However, there are multiple differences between how he approached this problem and how I did:
+However, there are multiple differences between how they approached this problem and how I did:
 
 \begin{enumerate}
-    \item First, he moves the base stations setp by step and computes the mean reward over 100 movements.
+    \item First, they move the base stations setp by step and computes the mean reward over 100 movements.
           However, since the base stations spend most of their times idling (because they have already reached their best possible position),
           I took the bias of putting the base stations directly at the computed best position, and then computing the reward only once (which also allows to test the different agents over more instances in the same amount of time).
-    \item Secondly, what is plotted in his article is the average reward during the reinforcement process.
+    \item Secondly, what is plotted in their article is the average reward during the reinforcement process.
           What it means is that the neural network is only tested on the instances it just learnt from.
           What I did instead is I have a separate test set, which I use to evaluate the different agents.
 \end{enumerate}
@@ -222,8 +222,9 @@ However, there are multiple differences between how he approached this problem a
 
 But, an other idea is to use supervised learning.
 By using an optimal agent, the neural network can learn to replicate the optimal solutions.
+Developping such an AI was the initial subject of my internship.
 
-The neural network is then divided in 2 neural networks:
+The neural network is thus divided in 2 neural networks:
 
 \begin{enumerate}
     \item A neural network that takes as inputs the positions of the users and learns to output the best positions for the 2 base stations.
@@ -231,6 +232,7 @@ The neural network is then divided in 2 neural networks:
 \end{enumerate}
 
 As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
+More details about how the neural networks are built are avaible in the appendix
 
 To conclude with my results, here is the average error for the neural network that learns to output the positions:
 As well as the average error for the neural network that learns to output the bandwiths:
@@ -262,7 +264,7 @@ With these neural networks, we can test it on instances and evaluate the perform
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/bilan_en _fonction epochs.png}
-    \caption{Representation of the convex enveloppe of the 4 clusters}
+    \caption{Normalized average user coverage for AI agent}
 \end{figure}
 
 \subsection{Learn only what's necessary}
@@ -276,7 +278,8 @@ That's why I decided to plot the performances when the positions are decided opt
     \caption{Performance with optimal positions and AI bandwiths}
 \end{figure}
 
-As we can see, the bandwidth part seems to be the issue.
+As we can see, the bandwidth part seems to be the issue, since even with perfect positions, the solution by the AI agent
+is still far from perfect.
 
 Thus, I implemented an agent which decides positions with a neural network, but decides the bandwiths optimally,
 which is pretty fast once the positions are fixed.
@@ -289,35 +292,66 @@ We then have the following results:
     \caption{Performance with AI positions and optimal bandwiths}
 \end{figure}
 
-To do a complete comparaison of the different methods, I computed the mean rewards and time to execute of the 3 methods quoted until now:
-
-\begin{center}
-    \begin{tabular}{ c c c }
-     Type of agent & Average user coverage & Execution time \\ 
-     AI positions and bandwiths & 76.80\% & 0.7875 ms \\  
-     AI positions and optimal bandwiths & 84.72\% & 15.677 ms  \\
-     Optimal positions and bandwiths &  87.08\% & 2.2759 s 
-    \end{tabular}
-    \end{center}
+The results here are pretty convincing, but I will do a deep and honest analysis of the different methods in terms
+of average reward but also in terms of average computation time.
 
 \subsection{Generalizing to a variable number of users}
 
-However, until now, I have only resolved instances with a fix number of users.
+However, until now, I have only resolved instances with a fix number of users (50).
 
 To fix this, the first solution we imagined was to use graph neural networks.
-\textit{Detail how gnn work}
+Graph neural networks (or gnn for short) are neural networks that are composed of a variable (i.e.\, not fixed) number
+of nodes and edges and run some aggregated functions (like mean, min or max for example) on them to have a final answer.
 
 The graph given to the neural network was constructed using a k-neighbourg algorithm.
-I have made a graphic plotting the final test error in function of the k in the k-neighbourg algorithm.
+I have made a graphic plotting the final test error on positions in function of the k in the k-neighbourg algorithm.
 
-However, as you can see, whatever the chosen k is, the results are always lacking.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/knn_for_gnn.png}
+    \caption{Position error for graph neural network in function of k}
+\end{figure}
 
-I thus opted for a simpler but less beautiful approach: I just add a one-hot to each user stating if the drone exists or not.
+However, as you can see, whatever the chosen k is, the results are always lacking compared to what we had before.
+
+I thus opted for a simpler but less scalable approach: I just add a one-hot to each user stating if the user exists or not.
 Thus, the neural network can be used to resolve instances with a variable number of users, as long as the number in question is inferior to a certain maximum.
 
-The precision is very similar to what it used to be with a fix number of users as you can see in the following graphics:
+The precision on a variable number of users from 25 to 100 is very similar to what it used to be with a fix number of users as you can see in the following graphics:
 
-\textit{Put some graphics here}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/error_pos_variable_user_number.png}
+        \caption{Position error}
+    \end{minipage}
+    \hspace{0.05\textwidth}
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/reward_variable_user_number.png}
+        \caption{Average normalized reward}
+    \end{minipage}
+\end{figure}
+
+\subsection{Comparaison of the different methods}
+
+In this subsection I am going to compare the 3 agents we have seen in this article: the optimal agent, the full-ai agent and the hybrid agent.
+The 2 criteria will be first average reward and second time computation.
+Moreover, until now, I have always generated users in 2 clusters, which is the simplest case (and the one used in the article my internship is based on \,\cite{main_article}).
+However, I will now evaluate the different agents on a number of clusters of 0 (which means random) to 4.
+
+Let's start by evaluating the average reward.
+
+\begin{center}
+    \begin{tabular}{ c c c }
+     Type of agent & random & 1 cluster \\ 
+     Optimal & 50.25\% & 57.80\% \\  
+     Full-ai & 32.81\% & 46.41\%  \\
+     Hybrid &  36.82\% & 55.87\% 
+    \end{tabular}
+\end{center}
+
 
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
 
