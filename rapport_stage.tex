@@ -363,6 +363,29 @@ While in some cases, the results are a bit lacking (namely in the random and 3-c
 
 Moreover, in the case that is the most similar to the one the situation in the article I tried to improve upon\,\cite{main_article}, while they had a normalized user coverage
 of around 87\%, we have one of 96\%. And even if the situations are not exactly the same (\hyperref[reinforcement]{details}), the changements should normally make it harder for my agent,
+since evaluating on the optimal positions makes it harder to be optimal rather than just having to move towards it,
+and having a separate test set punished overfitting harder.
+
+But, all of this would be for nothing if the time computations were very high.
+
+The time computations for the optimal agent depend of number of clusters because of the optimizations made.
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline 
+       & random & 1 cluster & 2 clusters & 3 clusters & 4 clusters \\ 
+     \hline
+     Average computation times & 50.25\% & 57.80\% & 87.28\% & 76.18\% & 57.77\% \\  
+     \hline
+    \end{tabular}
+\end{center}
+
+However, it is stable for the other 2 agents, with a average computation time of around 8-9 ms for the full-ai agent,
+and an average computation time of around 25-30 ms for the hybrid agent.
+
+So, even if the hybrid agent can be seen as a middleground between the short computation times but low rewards of the full-ai agent,
+and the high rewards but long computation times of the optimal agent, I think the balance is in its favor,
+having only slightly longer computation times than the full-ai agent and slightly worse rewards than the optimal agent.
 
 
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
