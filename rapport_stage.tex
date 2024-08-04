@@ -8,6 +8,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath}
+\usepackage{hyperref}
 
 \title{Internship Report}
 \author{Nathan Boyer}
@@ -202,6 +203,7 @@ Thus, a solution using machine learning was considered.
 Indeed, solving an instance of the problem would only require a forward pass of the neural network, which is negligible in time.
 
 \subsection{Reinforcement learning}
+\label{reinforcement}
 
 A reinforcement learning solution was imagined and implemented, again in article\;\cite{main_article}
 
@@ -232,7 +234,7 @@ The neural network is thus divided in 2 neural networks:
 \end{enumerate}
 
 As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
-More details about how the neural networks are built are avaible in the appendix
+More details about how the neural networks are built are avaible in the \hyperref[appendix]{appendix}
 
 To conclude with my results, here is the average error for the neural network that learns to output the positions:
 As well as the average error for the neural network that learns to output the bandwiths:
@@ -344,13 +346,23 @@ However, I will now evaluate the different agents on a number of clusters of 0 (
 Let's start by evaluating the average reward.
 
 \begin{center}
-    \begin{tabular}{ c c c }
-     Type of agent & random & 1 cluster \\ 
-     Optimal & 50.25\% & 57.80\% \\  
-     Full-ai & 32.81\% & 46.41\%  \\
-     Hybrid &  36.82\% & 55.87\% 
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline 
+     Type of agent & random & 1 cluster & 2 clusters & 3 clusters & 4 clusters \\ 
+     \hline
+     Optimal & 50.25\% & 57.80\% & 87.28\% & 76.18\% & 57.77\% \\  
+     \hline
+     Full-ai & 32.81\% & 46.41\% & 77.01\% & 57.08\% & 49.73\%  \\
+     \hline
+     Hybrid &  36.82\% & 55.87\% & 83.62\% & 64.60\% & 55.84\%  \\
+     \hline
     \end{tabular}
 \end{center}
+
+While in some cases, the results are a bit lacking (namely in the random and 3-clusters cases), the results are generally pretty close to the optimal solution.
+
+Moreover, in the case that is the most similar to the one the situation in the article I tried to improve upon\,\cite{main_article}, while they had a normalized user coverage
+of around 87\%, we have one of 96\%. And even if the situations are not exactly the same (\hyperref[reinforcement]{details}), the changements should normally make it harder for my agent,
 
 
 \section{Ouverture: Utiliser la distance à l'optimum comme erreur pour l'apprentissage}
@@ -365,6 +377,7 @@ Let's start by evaluating the average reward.
 \appendix
 
 \section{Appendix detailling how the neural networks are built}
+\label{appendix}
 
 For the position agent, each user is represented as:
 \begin{enumerate}
