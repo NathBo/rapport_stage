@@ -29,7 +29,7 @@
     \end{enumerate}
 
     Partitioning the physical network into multiple virtual networks appears to be the best way to provide a customised service for each application and limit operational costs. This design is well known as \textit{network slicing}.
-    Each drone must thus slice its bandwith between each of the 3 user classes.
+    Each drone must thus slice its bandwidth between each of the 3 user classes.
     This whole problem (placement + bandwidth) can be defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI in the litterature.
     In my internship, I wanted to prove that viewing the problem as an optimization problem can still be useful, by building an hybrid solution involving on one hand AI and on the other optimization.
     I use it to achieve better results than approaches that use only AI, although at the cost of slightly larger (but still reasonable) computation times.
@@ -274,7 +274,7 @@ That's why I decided to show the performances when the positions are optimally d
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/bilan_en _fonction epochs_aibw.png}
-    \caption{Performance with optimal positions and AI bandwiths}
+    \caption{Performance with optimal positions and AI bandwidths}
 \end{figure}
 
 As we can see, the bandwidth part seems to be the problem, because even with perfect positions, the AI agent's solution is still
@@ -288,7 +288,7 @@ Then we have the following results:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/mix_results.png}
-    \caption{Performance with AI positions and optimal bandwiths}
+    \caption{Performance with AI positions and optimal bandwidths}
 \end{figure}
 
 The results here are pretty convincing, but I will do a deep and honest analysis of the different methods in terms
