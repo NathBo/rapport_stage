@@ -28,9 +28,9 @@
         \item Ultra-Reliable Low-latency Communication (URLLC).
     \end{enumerate}
 
-    A partitioning of the physical network into several virtual networks looks to be the most suitable approach to provide a customized service to each application and to limit the operation expenses. This design is well known as \textit{network slicing}.
+    Partitioning the physical network into multiple virtual networks appears to be the best way to provide a customised service for each application and limit operational costs. This design is well known as \textit{network slicing}.
     Each drone must thus slice its bandwith between each of the 3 user classes.
-    This whole problem (placement + bandwidth) can be defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI.
+    This whole problem (placement + bandwidth) can be defined as an optimization problem, but since it is very hard to solve efficiently, it is almost always addressed by AI in the litterature.
     In my internship, I wanted to prove that viewing the problem as an optimization problem can still be useful, by building an hybrid solution involving on one hand AI and on the other optimization.
     I use it to achieve better results than approaches that use only AI, although at the cost of slightly larger (but still reasonable) computation times.
 \end{abstract}
@@ -41,19 +41,19 @@
 
 \section{Probleme presentation and literature analysis}
 
-The concept of network slicing has been investigated for some time. With the purpose of providing multiple core networks over the same network infrastructure, DECOR and eDECOR \cite{decor} have been already used in legacy LTE networks. 
-However, the slicing of Radio Access Network (RAN) was not considered in these works yet.
-Since then, the 5G network slicing concept evolved, by providing a better modularization and flexibility of the network functions.
-RAN slicing is now of great interest for the literature, given the ability to support resource isolation among different slices, providing a way to allocate radio resources to the connected User Equipments (UEs) based on the slices they belong to. 
-Several RAN slicing approaches have been proposed in the past few years. 
+The concept of network slicing has been explored for some time. With the aim of providing multiple core networks over the same network infrastructure, DECOR and eDECOR \cite{decor} have already been used in legacy LTE networks. 
+However, Radio Access Network (RAN) slicing has not been considered in these works.
+Since then, the concept of 5G network slicing has evolved to provide better modularisation and flexibility of network functions.
+RAN slicing is now of great interest in the literature, as it can support resource isolation between different slices, providing a way to allocate radio resources to the connected User Equipments (UEs) based on the slices they belong to. 
+Several RAN slicing approaches have been proposed in recent years. 
 Traditional strategies (\hspace{1sp}\cite{RANslicing1}, \cite{orion})  mainly deal with orthogonal resource allocation in time and/or frequency domain, such that the isolation between different services is guaranteed. Their aim in mainly oriented at allocating virtual Resource Blocks (vRBs) to UEs for intra-slice scheduling and to map the allocated vRBs to Physical Resource Blocks (PRBs) at a second stage.
 
 Machine Learning (ML) techniques (\hspace{1sp}\cite{fairness}, \cite{main_article}), mainly deep reinforcement learning, have also been extensively considered, given their capability to find patterns within the huge amount of data that is exchanged in cellular networks.
 
-In \textit{Deep Reinforcement Learning for Combined Coverage and Resource Allocation in UAV-Aided RAN-Slicing}\cite{main_article}, the authors develop a deep reinforcement learning agent that decides the best direction to go over a few 100 steps, and that is the most common approach.
+In \textit{Deep Reinforcement Learning for Combined Coverage and Resource Allocation in UAV-Aided RAN-Slicing}\cite{main_article}, the authors develop a deep reinforcement learning agent that decides the best direction to go for the UAVs over a few 100 steps, and that is the most common approach.
 Indeed, in \textit{UAV-Assisted Fair Communication for Mobile Networks: A Multi-Agent Deep Reinforcement Learning Approach}\cite{fairness}, the authors do pratically the same thing but add the dimension of fairness between the users.
 Moreover, in \textit{QoS-Aware UAV-BS Deployment Optimization Based on Reinforcement Learning}\cite{deep-qn}, the authors show that using deep-Q-network, it is possible to achieve optimal performance when placing only 1 base station.
-Finally, in \textit{Reinforcement Learning Aided UAV Base Station Location Optimization for Rate Maximization}\cite{rate_max}, the authors use again deep reinforcement learning to resolve the placement of 3 UAVs and find that it achieves around 70\% of the optimal performance, and that it is better that a k-means algorithm when the measure of imperfection is higher.
+Finally, in \textit{Reinforcement Learning Aided UAV Base Station Location Optimization for Rate Maximization}\cite{rate_max}, the authors use again deep reinforcement learning to resolve the placement of 3 UAVs and find that it achieves around 70\% of the optimal performance, and that it is better than a k-means algorithm when the measure of imperfection is higher.
 
 My internship aims at developping the following points on a 2-UAVs-aided RAN slicing:
 
@@ -71,21 +71,21 @@ My internship aims at developping the following points on a 2-UAVs-aided RAN sli
 
 This problem can be solved by constrained optimization (\hspace{1sp}\cite{main_article}).
 
-First, we have to define the equation that computes how well a user will reveive a base station's connection depending on where it is.
+First, we need to define the equation that calculates how well a user will receive a connection from a base station, depending on where it is.
 
-We have the following Equations for the drones's SINRs, which is a factor that represents how much data is effectively receiveed by the user, in relation to the data sent by the base station to the user:
+We have the following equations for the SINRs of the drones, which is a factor that represents how much data is actually received by the user in relation to the data sent to the user by the base station:
 
 $\operatorname{SINR}_{i, j}^t=\frac{p c \mu\left(y_j, u_i^t\right)\left(\left(\left\|y_j-u_i^t\right\|\right)^2+\left(h\right)^2\right)^{-\alpha / 2}}{\sum\limits_{k \in \mathcal{U} \backslash i} p c \mu\left(y_j, u_k^t\right)\left(\left(\left\|y_j-u_k^t\right\|\right)^2+\left(h\right)^2\right)^{-\alpha / 2}+\sigma^2}$
 
-To evaluate a configuration we will thus proceed as follows:
+To evaluate a configuration, we will therefore proceed as follows:
 
-You first need to associate each user with its nearest base station.
+First, each user must be associated with the nearest base station.
 
-You then share the bandwidth of a base station dedicated to a given class between all users of this class associated to this base station.
+You then divide the bandwidth of a base station dedicated to a given class between all the users of that class associated with that base station.
 
-Then, you compute each user SINR and decide for the user is satisfied or not.
+You then calculate the SINR for each user and decide whether the user is satisfied or not.
 
-The percentage of satisfied user is thus what you want to maximize.
+The percentage of satisfied users is what you want to maximise.
 
 \subsection{Optimization problem}
 
@@ -153,15 +153,15 @@ As such, instances of the problem are generated in a very similar way as they ar
 
 \subsection{Improvement of the optimization algorithm}
 
-To speed up the resolution of this problem, I implemented a few optimizations:
+To speed up the solution of this problem, I have implemented some optimisations:
 
-First, only positions in the convex enveloppe of the users can actually be candidates for optimal placements of the base stations.
-We can thus reduce by a lot the size of the matrix u.
+First, only positions in the convex envelope of the users can actually be candidates for optimal base station placements.
+This allows us to significantly reduce the size of the matrix u.
 
-Moreover, it is possible to go further but not without losing precision.
-Indeed, you can divide the users into k clusters and take the union of this convex enveloppe of this clusters.
+It is also possible to go further, but not without losing precision.
+In fact, we can divide the users into k clusters and take the union of this convex hull of these clusters.
 
-You can visualize the transformation done as follows:
+The transformation carried out can be visualised as follows:
 
 \begin{figure}[H]
     \centering
@@ -169,11 +169,8 @@ You can visualize the transformation done as follows:
     \caption{Representation of the convex enveloppe of the 4 clusters}
 \end{figure}
 
-The graph of performance and time in function of the number of clusters can be found below.
+The graph of performance and time as a function of the number of clusters is shown below for both random positions and positions generated with 2 clusters.
 
-Moreover, I am using \textit{Quote article here} to generate instances, thus as the instances generated have as many
-clusters as they have base stations, I am going to generate instances using clusters too.
-The performances are then as follows:
 
 \begin{figure}[H]
     \centering
@@ -196,48 +193,48 @@ Finally, multithreading can be used to further accelerate the computations.
 
 \section{Machine learning to solve the problem}
 
-However, a major issue is that this method of solving the problem by optimization is still pretty long.
-This can be problematic, especially if the users are moving, and it thus becomes necessary to recalculate the optimal position often.
+However, a major problem is that this method of solving the problem by optimisation is still quite long.
+This can be problematic, especially if the user is moving and the optimal position needs to be recalculated frequently.
 
-Thus, a solution using machine learning was considered.
-Indeed, solving an instance of the problem would only require a forward pass of the neural network, which is negligible in time.
+A machine learning solution was therefore considered.
+In fact, solving an instance of the problem would only require a forward pass of the neural network, which is negligible in time compared to solving an instance with the optimal agent.
 
 \subsection{Reinforcement learning}
 \label{reinforcement}
 
-A reinforcement learning solution was imagined and implemented, again in article\;\cite{main_article}
+A reinforcement learning solution was designed and implemented, again in article\;\cite{main_article}
 
-The authors tried to solve the same problem as the one I presented and, to put it shortly, managed to get an average reward of 72-73\% of users satisfied.
+The authors tried to solve the same problem as I did and, in short, managed to get an average reward of 72-73\% of users satisfied.
 
-However, there are multiple differences between how they approached this problem and how I did:
+However, there are several differences between their approach and mine:
 
 \begin{enumerate}
-    \item First, they move the base stations setp by step and computes the mean reward over 100 movements.
+    \item First, they move the base stations step by step and computes the mean reward over 100 movements.
           However, since the base stations spend most of their times idling (because they have already reached their best possible position),
           I took the bias of putting the base stations directly at the computed best position, and then computing the reward only once (which also allows to test the different agents over more instances in the same amount of time).
-    \item Secondly, what is plotted in their article is the average reward during the reinforcement process.
-          What it means is that the neural network is only tested on the instances it just learnt from.
-          What I did instead is I have a separate test set, which I use to evaluate the different agents.
+    \item Secondly, what is shown in their article is the average reward during the reinforcement process.
+        What this means is that the neural network is only tested on the instances that it has just learnt from.
+        What I have done instead is to have a separate test set that I use to evaluate the different agents.
 \end{enumerate}
 
 \subsection{Supervised learning from the optimal solution}
 
-But, an other idea is to use supervised learning.
+Another idea is to use supervised learning.
 By using an optimal agent, the neural network can learn to replicate the optimal solutions.
-Developping such an AI was the initial subject of my internship.
+Developing such an AI was the first topic of my internship.
 
-The neural network is thus divided in 2 neural networks:
+The neural network is therefore divided into 2 neural networks:
 
 \begin{enumerate}
-    \item A neural network that takes as inputs the positions of the users and learns to output the best positions for the 2 base stations.
-    \item A neural network that takes as inputs the positions of the users and the positions of the base stations and learns to output the best slicing of bandwiths between the 3 classes of users.
+    \item A neural network that takes the positions of the users as input and learns to output the best positions for the 2 base stations.
+    \item A neural network that takes as input the positions of the users and the positions of the base stations and learns to output the best allocation of bandwidth between the 3 classes of users.
 \end{enumerate}
 
-As a side note, the type of each users is represented by 3 one-hots, one for each of the class.
-More details about how the neural networks are built are avaible in the \hyperref[appendix]{appendix}
+As an aside, each user's type is represented by 3 one-hots, one for each class.
+More details on how the neural networks are built are available in the \hyperref[appendix]{appendix}
 
-To conclude with my results, here is the average error for the neural network that learns to output the positions:
-As well as the average error for the neural network that learns to output the bandwiths:
+To conclude my results, here is the average error for the neural network that learns to output the positions:
+As well as the average error for the neural network that learns to output the bandwidths:
 
 \begin{figure}[H]
     \centering
@@ -258,7 +255,7 @@ As well as the average error for the neural network that learns to output the ba
 
 \;
 
-With these neural networks, we can test it on instances and evaluate the performances it gives.
+With these neural networks, we can test them on instances and evaluate the performance they give.
 
 (We plot here the normalized average user coverage, i.e.\, the average user coverage divided by the average user coverage of the optimal solution)
 
@@ -271,8 +268,8 @@ With these neural networks, we can test it on instances and evaluate the perform
 
 \subsection{Learn only what's necessary}
 
-However, you can see the test error on bandwiths stops to decrease rapidly.
-That's why I decided to plot the performances when the positions are decided optimally, but the bandwiths are decided with the AI.
+However, you can see that the test error on the bandwidths stops decreasing rapidly.
+That's why I decided to show the performances when the positions are optimally decided, but the bandwidths are decided by the AI.
 
 \begin{figure}[H]
     \centering
@@ -280,13 +277,13 @@ That's why I decided to plot the performances when the positions are decided opt
     \caption{Performance with optimal positions and AI bandwiths}
 \end{figure}
 
-As we can see, the bandwidth part seems to be the issue, since even with perfect positions, the solution by the AI agent
+As we can see, the bandwidth part seems to be the problem, because even with perfect positions, the AI agent's solution is still
 is still far from perfect.
 
-Thus, I implemented an agent which decides positions with a neural network, but decides the bandwiths optimally,
-which is pretty fast once the positions are fixed.
+So I implemented an agent that decides the positions with a neural network, but decides the bandwidth optimally,
+which is quite fast once the positions are fixed.
 
-We then have the following results:
+Then we have the following results:
 
 \begin{figure}[H]
     \centering
@@ -299,14 +296,14 @@ of average reward but also in terms of average computation time.
 
 \subsection{Generalizing to a variable number of users}
 
-However, until now, I have only resolved instances with a fix number of users (50).
+However, so far I have only solved instances with a fixed number of users (50).
 
-To fix this, the first solution we imagined was to use graph neural networks.
-Graph neural networks (or gnn for short) are neural networks that are composed of a variable (i.e.\, not fixed) number
-of nodes and edges and run some aggregated functions (like mean, min or max for example) on them to have a final answer.
+To solve this problem, the first solution we came up with was to use graph neural networks.
+Graph Neural Networks (or GNNs for short) are neural networks that consist of a variable (i.e.\, not fixed) number of nodes and edges.
+of nodes and edges and perform some aggregation functions (such as mean, min, or max) on them to get a final answer.
 
 The graph given to the neural network was constructed using a k-neighbourg algorithm.
-I have made a graphic plotting the final test error on positions in function of the k in the k-neighbourg algorithm.
+I made a graph showing the final test error on positions as a function of the k in the k-neighbourg algorithm.
 
 \begin{figure}[H]
     \centering
@@ -314,12 +311,12 @@ I have made a graphic plotting the final test error on positions in function of 
     \caption{Position error for graph neural network in function of k}
 \end{figure}
 
-However, as you can see, whatever the chosen k is, the results are always lacking compared to what we had before.
+However, as you can see, whatever k is chosen, the results are always lacking compared to what we had before.
 
-I thus opted for a simpler but less scalable approach: I just add a one-hot to each user stating if the user exists or not.
-Thus, the neural network can be used to resolve instances with a variable number of users, as long as the number in question is inferior to a certain maximum.
+So I decided on a simpler but less scalable approach: I simply add a one-hot to each user, indicating whether the user exists or not.
+Thus, the neural network can be used to resolve instances with a variable number of users, as long as the number in question is less than a certain maximum.
 
-The precision on a variable number of users from 25 to 100 is very similar to what it used to be with a fix number of users as you can see in the following graphics:
+The accuracy with a variable number of users from 25 to 100 is very similar to the accuracy with a fixed number of users, as you can see in the following graphs:
 
 \begin{figure}[H]
     \centering
@@ -338,10 +335,10 @@ The precision on a variable number of users from 25 to 100 is very similar to wh
 
 \subsection{Comparaison of the different methods}
 
-In this subsection I am going to compare the 3 agents we have seen in this article: the optimal agent, the full-ai agent and the hybrid agent.
+In this subsection I will compare the 3 agents we have seen in this article: the optimal agent, the full AI agent, and the hybrid agent.
 The 2 criteria will be first average reward and second time computation.
-Moreover, until now, I have always generated users in 2 clusters, which is the simplest case (and the one used in the article my internship is based on \,\cite{main_article}).
-However, I will now evaluate the different agents on a number of clusters of 0 (which means random) to 4.
+Also, so far I have always generated users in 2 clusters, which is the simplest case (and the one used in the article my internship is based on \,\cite{main_article}).
+However, I will now evaluate the different agents on a number of clusters ranging from 0 (meaning random) to 4.
 
 Let's start by evaluating the average reward.
 
@@ -380,44 +377,44 @@ The time computations for the optimal agent depend of number of clusters because
     \end{tabular}
 \end{center}
 
-However, it is stable for the other 2 agents, with a average computation time of around 8-9 ms for the full-ai agent,
-and an average computation time of around 25-30 ms for the hybrid agent.
+However, it is stable for the other 2 agents, with an average computation time of about 8-9 ms for the full-AI agent and an average computation time of about 25-30 ms for the hybrid agent,
+and an average computation time of about 25-30 ms for the hybrid agent.
 
-So, even if the hybrid agent can be seen as a middleground between the short computation times but low rewards of the full-ai agent,
+Thus, even if the hybrid agent can be seen as a middle ground between the short computation times but low rewards of the full-AI agent and the high rewards but long computation times of the full-AI agent, the hybrid agent still performs well,
 and the high rewards but long computation times of the optimal agent, I think the balance is in its favor,
-having only slightly longer computation times than the full-ai agent and slightly worse rewards than the optimal agent.
+with only slightly longer computation times than the full-AI agent and slightly worse rewards than the optimal agent.
 
 
 \section{Areas for improvement}
 
-First, the AI agents were only trained with a dataset of 9000 instances, which could be increased if needed,
-and it would make the rewards better.
+First, the AI agents were only trained with a data set of 9000 instances, which could be increased if needed,
+and the rewards would be better.
 
-Secondly, a relatively new idea in resolving optimization problems with AI is to use the distance to the optimum solution
-(but in term of reward, not in term of answer like we did) as the reward for the neural network, which could definitely be implemented for this problem,
+Second, a relatively new idea in solving optimization problems with AI is to use the distance to the optimal solution.
+(but in terms of reward, not in terms of answer as we did) as the reward for the neural network, which could definitely be implemented for this problem,
 and might give higher performance.
 
 Thirdly, as seen in this article\cite{main_article}, the reward the optimal agent has is stongly tied to the precision of the grid used.
 I used a grid of $10 \times 10$ in my internship but by increasing the precision, the rewards would be better.
 
-Finally, if you wanted to extend the method presented in this article to a number of drones of 3 or more, you would need to
-completely rewrite the optimal agent, as it scales very poorly.
-For example, right now, it takes 37.1 GB of ram to declare the matrix $u$ for 4 drones.
+Finally, if you wanted to extend the method presented in this article to a number of drones of 3 or more, you would have to
+rewrite the optimal agent completely, as it scales very poorly.
+For example, it currently requires 37.1 GB of ram to declare the $u$ matrix for 4 drones.
 
 
 \section{Conclusion}
 
-In my internship, I developped 2 RL agents for a 2-UAV-aided 5GNR network slicing scenario, with the aim of optimizing the SLA satisfaction ratio of the deployed users.
+In my internship, I developed 2 RL agents for a 2-UAV assisted 5GNR network slicing scenario, with the goal of optimizing the SLA satisfaction of the deployed users.
 
-The goal was to learn from the optimal agent, with the idea that what is important is not really the movements of the UAVs,
-but rather their final destinations.
+The goal was to learn from the optimal agent, with the idea that it is not really the movements of the UAVs that are important,
+but their final destinations.
 
-I demonstrated how a hybrid approach can outperform a full-ai approach, that are commonly used in the litterature.
+I demonstrated how a hybrid approach can outperform a full-AI approach, which is commonly used in the literature.
 
-Finally, this method showed great adaptability, performing well with a lot of different distributions of users.
+Finally, this method showed great adaptability, performing well with many different distributions of users.
 
-The promising results obtained throughout my internship can encourage us to investigate towards improving upon the performance,
-as well as try to scale this method to situations with more than 2 UAVs.
+The promising results obtained during my internship can encourage us to investigate towards improving the performance,
+and try to scale this method to situations with more than 2 UAVs.
 
 
 \bibliographystyle{plain}
@@ -433,20 +430,19 @@ For the position agent, each user is represented as:
 \begin{enumerate}
     \item Its x and y axis
     \item A one-hot for each of the possible type
-    \item A one-hot that indicates if the user actually exists (if the user does not exist, the positions are set to random and the one-hots above to 0)
+    \item A one-hot that indicates whether the user actually exists (if the user does not exist, the positions are set to random and the one-hots above are set to 0).
 \end{enumerate}
 
-The number of users is easily adjustable (I set it to 100 in the tests)
-The neural network is then composed of 2 convolutional layers, followed by 2 linear layers.
-The hyper-parameters are the following: learning rate of $5e^{-5}$ and weight decay of $1e^{-5}$.
+The number of users is easily adjustable (I set it to 100 in the tests).
+The neural network consists of 2 convolutional layers followed by 2 linear layers.
+The hyperparameters are the following: learning rate of $5e^{-5}$ and weight decay of $1e^{-5}$.
 
 \;
 
-For the bandwidth agent, each user is represented as before but there is an entry added for the position of each of the UAV.
-The neural network is then composed of a convolutional layer for the drones, a convolutional layer for the users,
+For the bandwidth agent, each user is represented as before, but an entry is added for the position of each of the UAVs.
+The neural network then consists of a convolutional layer for the drones, a convolutional layer for the users,
 then the 2 results are concatenated and passed to 2 linear layers.
-The hyper-parameters are the following: learning rate pf $2e^{-4}$ and weight decay of $1e^{-6}$
-
+The hyperparameters are the following: learning rate of $2e^{-4}$ and weight decay of $1e^{-6}$.
 
 
 \end{document}
