@@ -60,16 +60,17 @@ My internship aims at developping the following points on a 2-UAVs-aided RAN sli
 \begin{enumerate}
     \item Improving the optimization algorithm to make it able to generate big amount of data in reasonable time
     \item Developping an AI agent that learns from the optimal optimization algorithm with supervised learning
-    \item Building an hybrid agent from this AI agent that combines AI and algorithmic to achieve better performance
-    \item Realizing an honest comparaison between the different methods both in terms of performance achieved and in terms of computation time
+    \item Building an hybrid agent from this AI agent that combines AI and a classical optimization algorithm to achieve better performance
+    \item Realizing an honest comparison between the different methods both in terms of performance achieved and in terms of computation time
 \end{enumerate}
 
 
-\section{Problem solving by constrained optimization}
+\section{Problem definition and solution via mathematical optimization}
 
-\subsection{In-depth explanation}
+\label{optimization}
 
-This problem can be solved by constrained optimization (\hspace{1sp}\cite{main_article}).
+
+In \cite{main_article} it is showed how to model the problem considered with a mathematical model.
 
 First, we need to define the equation that calculates how well a user will receive a connection from a base station, depending on where it is.
 
@@ -79,13 +80,13 @@ $\operatorname{SINR}_{i, j}^t=\frac{p c \mu\left(y_j, u_i^t\right)\left(\left(\l
 
 To evaluate a configuration, we will therefore proceed as follows:
 
-First, each user must be associated with the nearest base station.
+\begin{itemize}
+    \item First, each user must be associated with the nearest base station.
+    \item You then divide the bandwidth of a base station dedicated to a given class between all the users of that class associated with that base station.
+    \item You then calculate the SINR for each user and decide whether the user is satisfied or not.
+    \item The percentage of satisfied users is what you want to maximise.
+\end{itemize}
 
-You then divide the bandwidth of a base station dedicated to a given class between all the users of that class associated with that base station.
-
-You then calculate the SINR for each user and decide whether the user is satisfied or not.
-
-The percentage of satisfied users is what you want to maximise.
 
 \subsection{Optimization problem}
 
@@ -105,13 +106,13 @@ Under the following constraints:
 \begin{subequations}
     \allowdisplaybreaks
     \begin{align}
-        & \sum_{b \in |\mathcal{U}|} \sum_{i, j \in \mathcal{U}} u_{i, j} \times bw_{\text{slice}(g), b} \times \text{bps}_g \frac{100}{G_{\text{conn}}(\text{slice}(g),b)} \nonumber \\
-        & \geq th_g \times \delta_g \hspace{1cm} \forall g \in \mathcal{G} \\[1em]
-        & bw_{em,b} + bw_{ur,b} + bw_{mm,b} = 1 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]
-        & bw_{em,b} \geq 0; bw_{ur,b} \geq 0; bw_{mm,b} \geq 0 \hspace{1cm} \forall b \in |\mathcal{U}| \\[1em]
-        & \sum_{i,j \in \mathcal{U}}u_{i,j} = 1 \\[1em]
-        & \delta_g \in \{0, 1\} \hspace{1cm} \forall g \in \mathcal{G} \\[1em] 
-        & u_{i,j} \in \{0, 1\} \hspace{1cm} \forall i,j \in \{0, 1, ... , |\mathcal{U}-1|\}
+        \sum_{b \in |\mathcal{U}|} \sum_{i, j \in \mathcal{U}} u_{i, j} \times bw_{\text{slice}(g), b} \times \text{bps}_g \frac{100}{G_{\text{conn}}(\text{slice}(g),b)} \nonumber
+        \geq th_g \times \delta_g \hspace{1cm} &\forall g \in \mathcal{G} \\[1em]
+        bw_{em,b} + bw_{ur,b} + bw_{mm,b} = 1 \hspace{1cm} &\forall b \in |\mathcal{U}| \\[1em]
+        bw_{em,b} \geq 0; bw_{ur,b} \geq 0; bw_{mm,b} \geq 0 \hspace{1cm} &\forall b \in |\mathcal{U}| \\[1em]
+        \sum_{i,j \in \mathcal{U}}u_{i,j} = 1 &\\[1em]
+        \delta_g \in \{0, 1\} \hspace{1cm} &\forall g \in \mathcal{G} \\[1em] 
+        u_{i,j} \in \{0, 1\} \hspace{1cm} &\forall i,j \in \{0, 1, ... , |\mathcal{U}-1|\}
     \end{align}\label{constr}
     \end{subequations}
 
@@ -153,7 +154,8 @@ As such, instances of the problem are generated in a very similar way as they ar
 
 \subsection{Improvement of the optimization algorithm}
 
-To speed up the solution of this problem, I have implemented some optimisations:
+In this section we present an effective preprecessing of the data that can be used to obtain a good
+tradeoff between quality of the solution and computing time.
 
 First, only positions in the convex envelope of the users can actually be candidates for optimal base station placements.
 This allows us to significantly reduce the size of the matrix u.
@@ -193,16 +195,16 @@ Finally, multithreading can be used to further accelerate the computations.
 
 \section{Machine learning to solve the problem}
 
-However, a major problem is that this method of solving the problem by optimisation is still quite long.
+However, the model presented in the previous sectioncan still require a signficant amount of time to besolved.
 This can be problematic, especially if the user is moving and the optimal position needs to be recalculated frequently.
 
-A machine learning solution was therefore considered.
+A machine learning solution is therefore considered.
 In fact, solving an instance of the problem would only require a forward pass of the neural network, which is negligible in time compared to solving an instance with the optimal agent.
 
 \subsection{Reinforcement learning}
 \label{reinforcement}
 
-A reinforcement learning solution was designed and implemented, again in article\;\cite{main_article}
+A reinforcement learning solution is designed and implemented, in article\;\cite{main_article}
 
 The authors tried to solve the problem I just presented and, in short, managed to get an average reward of 72-73\% of users satisfied.
 
@@ -213,13 +215,14 @@ However, there are several differences between their approach and mine:
           However, since the base stations spend most of their times idling (because they have already reached their best possible position),
           I took the bias of putting the base stations directly at the computed best position, and then computing the reward only once (which also allows to test the different agents over more instances in the same amount of time).
     \item Secondly, what is shown in their article is the average reward during the reinforcement process.
-        What this means is that the neural network is only tested on the instances that it has just learnt from.
+        In other words, the neural network is only tested on the instances that it has just learnt from.
         What I have done instead is to have a separate test set that I use to evaluate the different agents.
 \end{enumerate}
 
 \subsection{Supervised learning from the optimal solution}
 
-Another idea is to use supervised learning.
+In this section we present how to use supervised learning to train an agentthat leanes from the optimal solutionsprovided by the mathematical model
+presented in \hyperref[optimization]{section 2}.
 By using an optimal agent, the neural network can learn to replicate the optimal solutions.
 Developing such an AI was the first topic of my internship.
 
@@ -268,8 +271,8 @@ With these neural networks, we can test them on instances and evaluate the perfo
 
 \subsection{Learn only what's necessary}
 
-However, you can see that the test error on the bandwidths stops decreasing rapidly.
-That's why I decided to show the performances when the positions are optimally decided, but the bandwidths are decided by the AI.
+From \hyperref[fig:image6]{figure 5} it is possible to see that the test error on the bandwidths stops decreasing rapidly.
+That's why I decided to show the performances when the positions are optimally decided (i.e. decided by the optimization algorithm), but the bandwidths are decided by the AI.
 
 \begin{figure}[H]
     \centering
@@ -296,14 +299,14 @@ of average reward but also in terms of average computation time.
 
 \subsection{Generalizing to a variable number of users}
 
-However, so far I have only solved instances with a fixed number of users (50).
+In the previous sections, I have only solved instances with a fixed number of users (50).
 
-To solve this problem, the first solution we came up with was to use graph neural networks.
-Graph Neural Networks (or GNNs for short) are neural networks that consist of a variable (i.e.\, not fixed) number of nodes and edges.
+The first solution we came up with was to use graph neural networks.
+Graph Neural Networks (GNNs) are neural networks that consist of a variable (i.e.\, not fixed) number
 of nodes and edges and perform some aggregation functions (such as mean, min, or max) on them to get a final answer.
 
 The graph given to the neural network was constructed using a k-neighbourg algorithm.
-I made a graph showing the final test error on positions as a function of the k in the k-neighbourg algorithm.
+I made a graph showing the final test error on positions as a function of the k in the k-neighbourg algorithm:
 
 \begin{figure}[H]
     \centering
@@ -311,7 +314,8 @@ I made a graph showing the final test error on positions as a function of the k 
     \caption{Position error for graph neural network in function of k}
 \end{figure}
 
-However, as you can see, whatever k is chosen, the results are always lacking compared to what we had before.
+Unfortunately, regarless of the choice for k, the the error obtained is always significantly higher than the one obtained with a model for a fixed
+number of users
 
 So I decided on a simpler but less scalable approach: I simply add a one-hot to each user, indicating whether the user exists or not.
 Thus, the neural network can be used to resolve instances with a variable number of users, as long as the number in question is less than a certain maximum.
@@ -333,14 +337,14 @@ The accuracy with a variable number of users from 25 to 100 is very similar to t
     \end{minipage}
 \end{figure}
 
-\subsection{Comparaison of the different methods}
+\subsection{Comparison of the different methods}
 
 In this subsection I will compare the 3 agents we have seen in this report: the optimal agent, the full AI agent, and the hybrid agent.
 The 2 criteria will be first average reward and second time computation.
 Also, so far I have always generated users in 2 clusters, which is the simplest case (and the one used in the article my internship is based on \,\cite{main_article}).
 However, I will now evaluate the different agents on a number of clusters ranging from 0 (meaning random) to 4.
 
-Let's start by evaluating the average reward.
+We first evaluate the average reward, i.e. the average percentage of users satisfied.
 
 \begin{center}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -357,17 +361,20 @@ Let's start by evaluating the average reward.
 \end{center}
 
 While in some cases, the results are a bit lacking (namely in the random and 3-clusters cases), the results are generally pretty close to the optimal solution.
+On the other hand, the hybrid option is always better than the full AI.
 
 Moreover, in the case that is the most similar to the one the situation in the article I tried to improve upon\,\cite{main_article}, while they had a normalized user coverage
-of around 87\%, we have one of 96\%. And even if the situations are not exactly the same (\hyperref[reinforcement]{details}), the changements should normally make it harder for my agent,
+of around 87\%, we have one of 96\% ($=\frac{83.62}{87.28}$). And even if the situations are not exactly the same (\hyperref[reinforcement]{details}), the changements should normally make it harder for my agent,
 since evaluating on the optimal positions makes it harder to be optimal rather than just having to move towards it,
 and having a separate test set punished overfitting harder.
 
-But, all of this would be for nothing if the time computations were very high.
+To obtain a fair comparison of the methodologies proposed we need to consider also the computiong time needed
 
 The time computations for the optimal agent depend of number of clusters because of the optimizations made.
 
+\begin{table}[!h]
 \begin{center}
+    \caption{Computation times for the optimal agent}
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline 
        & random & 1 cluster & 2 clusters & 3 clusters & 4 clusters \\ 
@@ -376,6 +383,7 @@ The time computations for the optimal agent depend of number of clusters because
      \hline
     \end{tabular}
 \end{center}
+\end{table}
 
 However, it is stable for the other 2 agents, with an average computation time of about 8-9 ms for the full-AI agent and an average computation time of about 25-30 ms for the hybrid agent,
 and an average computation time of about 25-30 ms for the hybrid agent.
